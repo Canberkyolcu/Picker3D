@@ -1,6 +1,7 @@
 ﻿
 using Cinemachine;
 using System;
+using Signals;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -35,10 +36,10 @@ namespace Assets.Scripts.Managers
 
         private void OnSetCameraTarget()
         {
-           // var player = FindAnyObjectByType<PlayerManager>().transform;
-            //virtualCamera.Follow = player;
+            var player = FindObjectOfType<PlayerManager>().transform;
+            virtualCamera.Follow = player;
 
-            //virtualCamera.LookAt= player;
+           // virtualCamera.LookAt= player;
         }
 
 

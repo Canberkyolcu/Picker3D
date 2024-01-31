@@ -1,23 +1,25 @@
-
 using UnityEngine;
 using UnityEngine.Events;
 
-public class CameraSignals : MonoBehaviour
+namespace Signals
 {
-    public static CameraSignals instance;
-
-    public UnityAction onSetCameraTarger =delegate { }; 
-
-    private void Awake()
+    public class CameraSignals : MonoBehaviour
     {
-        if (instance != null && instance != this)
-        {
+        public static CameraSignals instance;
 
-            Destroy(gameObject);
-            return;
+        public UnityAction onSetCameraTarger =delegate { }; 
+
+        private void Awake()
+        {
+            if (instance != null && instance != this)
+            {
+
+                Destroy(gameObject);
+                return;
+            }
+
+            instance = this;
         }
 
-        instance = this;
     }
-
 }

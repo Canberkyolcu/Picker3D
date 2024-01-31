@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: CD_Input
   m_EditorClassIdentifier: 
   data:
-    horizontalInputSpeed: 0
-    clampValues: {x: 0, y: 0}
-    clampSpeed: 0
+    horizontalInputSpeed: 5
+    clampValues: {x: -3.16, y: 3.16}
+    clampSpeed: 1

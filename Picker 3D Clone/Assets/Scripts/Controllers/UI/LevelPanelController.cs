@@ -25,7 +25,7 @@ public class LevelPanelController : MonoBehaviour
 
     private void OnSetStageColor(byte stageValue)
     {
-        stageImages[stageValue].DOColor(new Color(0.996f,0.419f,0.784f), 0.5f);
+        stageImages[stageValue].DOColor(new Color(1f, 0.5403299f, 0f), 0.5f);
     }
 
     private void OnSetLevelValue(byte levelValue)

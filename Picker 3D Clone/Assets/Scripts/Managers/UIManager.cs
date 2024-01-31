@@ -1,5 +1,6 @@
 ﻿
 using System;
+using Signals;
 using UnityEngine;
 
 namespace Assets.Scripts.Managers
@@ -18,6 +19,7 @@ namespace Assets.Scripts.Managers
             CoreGameSignals.Instance.onLevelSuccessful += OnLevelSuccessful;
             CoreGameSignals.Instance.onLevelFailed += OnLevelFailed;
             CoreGameSignals.Instance.onReset += OnReset;
+            CoreGameSignals.Instance.onStageAreaSuccessful += OnStageAreaSuccessful;
         }
 
         private void OnLevelFailed()
@@ -40,14 +42,21 @@ namespace Assets.Scripts.Managers
         {
             CoreUISignals.Instance.onCloseAllPanels?.Invoke();
             CoreUISignals.Instance.onOpenPanel?.Invoke(UIPanelTypes.Start, 1);
+           
         }
 
         private void UnSubscribeEvents()
         {
-            CoreGameSignals.Instance.onLevelInitialize += OnLevelInitialize;
-            CoreGameSignals.Instance.onLevelSuccessful += OnLevelSuccessful;
-            CoreGameSignals.Instance.onLevelFailed += OnLevelFailed;
-            CoreGameSignals.Instance.onReset += OnReset;
+            CoreGameSignals.Instance.onLevelInitialize -= OnLevelInitialize;
+            CoreGameSignals.Instance.onLevelSuccessful -= OnLevelSuccessful;
+            CoreGameSignals.Instance.onLevelFailed -= OnLevelFailed;
+            CoreGameSignals.Instance.onReset -= OnReset;
+            CoreGameSignals.Instance.onStageAreaSuccessful -= OnStageAreaSuccessful;
+        }
+
+        private void OnStageAreaSuccessful(byte stageValue)
+        {
+            UISignals.instance.onSetStageColor?.Invoke(stageValue);
         }
 
         private void OnDisable()
@@ -72,6 +81,7 @@ namespace Assets.Scripts.Managers
             UISignals.instance.onPlay?.Invoke();
             CoreUISignals.Instance.onClosePanel?.Invoke(1);
             InputSignals.instance.onEnableInput?.Invoke();
+            CameraSignals.instance.onSetCameraTarger?.Invoke();
         }
     }
 }

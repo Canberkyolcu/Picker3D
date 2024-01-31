@@ -6,4 +6,6 @@ using System.Collections.Generic;
 public struct LevelData 
 {
     public List<PoolData> pools;
+    public short TotalSpawnedCollectableCount;
+  
 }

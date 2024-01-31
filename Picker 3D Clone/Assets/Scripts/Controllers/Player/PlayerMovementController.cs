@@ -1,19 +1,33 @@
 ﻿using System;
 using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
+using DG.Tweening;
 
 namespace Controllers.Player
 {
     public class PlayerMovementController : MonoBehaviour
     {
-        [SerializeField] private Rigidbody rigidbody;
+        [SerializeField] private new Rigidbody rigidbody;
+        [SerializeField] private PlayerManager manager;
+        
 
         private PlayerData.PlayerMovementData _data;
+        private LevelData _levelData;
         private bool _isReadyToMove, _isReadyToPlay;
         private float _xValue;
 
         private float2 _clampValues;
+
+        private void Awake()
+        {
+            _levelData = GetLevelData();
+           
+        }
+        private LevelData GetLevelData()
+        {
+            return Resources.Load<CD_Level>("Data/CD_Level").Levels[(int)CoreGameSignals.Instance.onGetLevelValue()];
+        }
+
 
         internal void SetData(PlayerData.PlayerMovementData data)
         {
@@ -87,6 +101,30 @@ namespace Controllers.Player
             StopPlayer();
             _isReadyToMove = false;
             _isReadyToPlay = false;
+        }
+
+        internal void MiniGameMovement()
+        {
+          //  StopPlayerHorizontally();
+            StopPlayer();       
+           var collectableCount =  (float)manager.currentCollectable / (float)_levelData.TotalSpawnedCollectableCount* 100f;
+            float movePlayer = collectableCount * 0.01f * 10f*4f;
+            Debug.Log(collectableCount);
+            Debug.Log(movePlayer);
+            if (collectableCount < 0) CoreGameSignals.Instance.onLevelSuccessful?.Invoke();
+       
+            else
+            {
+                this.gameObject.transform.DOMoveZ(transform.localPosition.x+movePlayer, 4f).OnComplete(() =>
+
+                     CoreGameSignals.Instance.onLevelSuccessful?.Invoke()
+                );
+           
+
+            }
+
+            Debug.Log(transform.localPosition.x + movePlayer);
+      
         }
     }
 }

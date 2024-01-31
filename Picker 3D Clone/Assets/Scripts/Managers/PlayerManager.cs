@@ -1,10 +1,13 @@
 using Assets.Scripts.Commands.Player;
 using Controllers.Player;
+using System;
 using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
     public byte StageValue;
+
+    public short currentCollectable;
 
     internal ForceBallsToPoolCommand ForceCommand;
 
@@ -14,13 +17,17 @@ public class PlayerManager : MonoBehaviour
 
     private PlayerData _data;
 
+
     private void Awake()
     {
         _data = GetPlayerData();
+      
         SendDataToControllers();
         Init();
     }
-    
+
+  
+
     private PlayerData GetPlayerData()
     {
         return Resources.Load<CD_Player>("Data/CD_Player").playerData;
@@ -53,6 +60,7 @@ public class PlayerManager : MonoBehaviour
         CoreGameSignals.Instance.onStageAreaEntered += ()=>movementController.IsReadyToPlay(false);
         CoreGameSignals.Instance.onStageAreaSuccessful += OnStageAreaSuccessful;
         CoreGameSignals.Instance.onFinishAreaEntered += OnFinishAreaEntered;
+        CoreGameSignals.Instance.onMiniGameAreaEntered += OnMiniGameEntered;
         CoreGameSignals.Instance.onReset += OnReset;
     }
     
@@ -66,12 +74,26 @@ public class PlayerManager : MonoBehaviour
     private void OnFinishAreaEntered()
     {
         CoreGameSignals.Instance.onLevelSuccessful?.Invoke();
+       
         //mini game yazılmalı
     }
+
+    private void OnMiniGameEntered()
+    {
+        movementController.MiniGameMovement();
+        
+        meshController.PlayConfetti();
+        
+    }
+
 
     private void OnStageAreaSuccessful(byte value)
     {
         StageValue = (byte)++value;
+        movementController.IsReadyToPlay(true);
+        meshController.ScaleUpPlayer();
+        meshController.PlayConfetti();
+        meshController.ShowUpText();
     }
     
     private void OnReset()

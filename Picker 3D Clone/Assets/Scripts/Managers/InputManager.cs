@@ -52,7 +52,7 @@ public class InputManager : MonoBehaviour
     private void OnReset()
     {
         _isAvailableForTouch = false;
-        //  _isFirstTimeTouchTaken = false;
+          _isFirstTimeTouchTaken = false;
         _isTouching = false;
 
     }
@@ -108,7 +108,7 @@ public class InputManager : MonoBehaviour
                     }
                     else if (mouseDeltaPos.x < _data.horizontalInputSpeed)
                     {
-                        _moveVector.x = -_data.horizontalInputSpeed / 10f * mouseDeltaPos.x;
+                        _moveVector.x = -_data.horizontalInputSpeed / 10f * -mouseDeltaPos.x;
                     }
                     else
                     {

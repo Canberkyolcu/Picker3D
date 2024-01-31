@@ -5,4 +5,5 @@ using System;
 public struct PoolData 
 {
     public byte requiredObjectCount;
+    
 }

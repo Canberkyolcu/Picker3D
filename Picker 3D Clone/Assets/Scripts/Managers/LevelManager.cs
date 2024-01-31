@@ -55,7 +55,7 @@ public class LevelManager : MonoBehaviour
 
     private byte OnGetLevelValue()
     {
-        return (byte)_currentLevel;
+        return (byte)((byte)_currentLevel % totalLevelCount);
     }
 
     private void UnSubscribeEvenets()
